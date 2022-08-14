@@ -8,7 +8,7 @@ pub fn reverse_bytes(span: &mut [u8]) {
     }
 }
 
-pub fn chop_last<'a>(body: &'a mut [u8], seps: &[char]) -> &'a mut[u8] {
+fn chop_last<'a>(body: &'a mut [u8], seps: &[char]) -> &'a mut[u8] {
     let x = std::str::from_utf8(body).unwrap();
     let mut split = 0;
     for (i, c) in x.char_indices().rev() {
@@ -44,7 +44,7 @@ pub fn reverse_paragraphs(s: String) -> String {
     reverse(s, &seps)
 }
 
-pub fn reverse_any<'a, 'b>(bytes: &'a mut [u8], seps: &'b Vec<char>, level: usize) -> &'a mut[u8] {
+fn reverse_any<'a, 'b>(bytes: &'a mut [u8], seps: &'b Vec<char>, level: usize) -> &'a mut[u8] {
     if seps.len() == level {
         reverse_bytes(bytes);
         return bytes
@@ -69,12 +69,11 @@ pub fn reverse_any<'a, 'b>(bytes: &'a mut [u8], seps: &'b Vec<char>, level: usiz
     bytes
 }
 
-pub fn reverse(s: String, seps: &Vec<char>) -> String {
+fn reverse(s: String, seps: &Vec<char>) -> String {
     let mut bytes = s.into_bytes();
     reverse_any(bytes.as_mut_slice(), seps, 0);
     std::string::String::from_utf8(bytes).unwrap()
 }
-
 
 #[test]
 fn it_can_reverse_paragraphs () {
